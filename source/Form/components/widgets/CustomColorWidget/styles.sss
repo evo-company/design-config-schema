@@ -1,0 +1,36 @@
+.form-control
+    cursor: pointer
+
+.form-control[readonly]
+    background-color: #fff
+
+.overlay
+    position: fixed
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+    z-index: 1040
+    text-align: center
+    white-space: nowrap
+    overflow-y: auto
+    background-color: rgba(0,0,0,0.5)
+
+.overlay:before
+    display: inline-block
+    vertical-align: middle
+    height: 100%
+    content: ''
+
+.overlay-background-layer
+    position: absolute
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+
+.overlay-body
+    display: inline-block
+    text-align: left
+    white-space: normal
+    vertical-align: middle

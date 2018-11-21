@@ -1,0 +1,48 @@
+.svg-preview
+    box-sizing: content-box
+    width: 50px
+    height: 50px
+
+.svg-preview svg
+    width: 50px
+    height: 50px
+
+.icon-camera
+    box-sizing: border-box
+    display: inline-block
+    vertical-align: middle
+    position: relative
+    font-style: normal
+    color: currentColor
+    text-align: left
+    text-indent: -9999px
+    direction: ltr
+    width: 32px
+    height: 24px
+    border-radius: 4px
+    margin: 13px 9px
+    border: 2px solid
+    opacity: 0.2
+
+.icon-camera:before
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%,-50%)
+    width: 10px
+    height: 10px
+    border: 1px solid transparent
+    box-shadow: inset 0 0 0 1px, 0 0 0 2px
+    border-radius: 50%
+    pointer-events: none
+    content: ''
+
+.icon-camera:after
+    position: absolute
+    width: 4px
+    height: 2px
+    right: 2px
+    top: 2px
+    box-shadow: inset 0 0 0 32px
+    pointer-events: none
+    content: ''
