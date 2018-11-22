@@ -1,4 +1,4 @@
-# design-config-schema
+# @evo/design-config-schema
 
 This package specifies JSON schema for design settings. Such as: colors, background colors, fonts and icons of particular elements of design.
 
@@ -8,8 +8,7 @@ To learn more about JSON schema see [json-schema.org](https://json-schema.org)
 
 ### Example of design settings
 
-<details>
-<summary>Click to view</summary>
+<details><summary>Click to view</summary>
 
 ```json
 {

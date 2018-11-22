@@ -1,7 +1,8 @@
 {
   "name": "@evo/design-config-schema",
   "version": "0.0.0",
-  "description": "EVO company design settings schema.",
+  "title": "EVO company design settings schema",
+  "description": "EVO company design settings schema for annotation and validation of the design settings.",
   "main": "dist/schema.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/evo-company/design-config-schema/issues"
   },
-  "homepage": "https://github.com/evo-company/design-config-schema",
+  "homepage": "https://github.com/evo-company/design-config-schema/wiki/design-settings-JSON-schema",
   "devDependencies": {
     "autoprefixer": "^9.1.5",
     "babel-core": "^6.26.3",
