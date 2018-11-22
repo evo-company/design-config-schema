@@ -71,6 +71,8 @@ rm -rfd {node_modules,dist,public/css/index.css,public/js}
 npm i && npm run build
 git add --all
 git commit -m "Update package version to $TAG"
-#git push origin master
-#git push origin master --tags
-#npm publish
+git push origin master
+git push origin master --tags
+echo -e "\e[1mLogin to you NPM account\e[21m"
+npm login
+npm publish --access public
