@@ -12,6 +12,7 @@ postcss.config.js
 webpack.config.js
 webpack.schema.js
 index.html
+publish
 .babelrc
 .eslintrc
 .gitignore

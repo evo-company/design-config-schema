@@ -66,12 +66,9 @@ function select_option {
 echo -e "\e[1mSelect semver version\e[21m \e[2m(use arrow keys)\e[22m"
 select_option "${SEMVERS[@]}"
 npm version ${SEMVERS[$?]}
+if [[ $? -ge 0 ]]; then exit $?; fi
 TAG=$(git describe --tags)
-rm -rfd {node_modules,dist,public/css/index.css,public/js}
-npm i && npm run build
-git add --all
-git commit -m "Update package version to $TAG"
-git push origin master
+echo -e "\e[1A\e[K\e[1mUpdate package version to $TAG\e[21m"
 git push origin master --tags
 echo -e "\e[1mLogin to you NPM account\e[21m"
 npm login

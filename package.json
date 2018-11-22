@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack --progress",
-    "build": "webpack --progress --mode='production';webpack --progress --config webpack.schema.js"
+    "clean": "rm -rfd node_modules dist public/css/index.css public/js",
+    "build": "npm run clean && npm i;webpack --progress --mode='production';webpack --progress --config webpack.schema.js"
   },
   "keywords": [
     "EVO",
