@@ -66,7 +66,7 @@ function select_option {
 echo -e "\e[1mSelect semver version\e[21m \e[2m(use arrow keys)\e[22m"
 select_option "${SEMVERS[@]}"
 npm version ${SEMVERS[$?]}
-if [[ $? -ge 0 ]]; then exit $?; fi
+if [[ $? > 0 ]]; then exit $?; fi
 TAG=$(git describe --tags)
 echo -e "\e[1A\e[K\e[1mUpdate package version to $TAG\e[21m"
 git push origin master --tags
