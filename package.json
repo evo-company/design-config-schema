@@ -1,6 +1,6 @@
 {
   "name": "@evo/design-config-schema",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "title": "EVO company design settings schema",
   "description": "EVO company design settings schema for annotation and validation of the design settings.",
   "main": "dist/schema.js",
