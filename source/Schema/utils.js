@@ -4,6 +4,7 @@ export function getKeyValues(key, obj) {
     Object.keys(obj).forEach((k) => {
         if (obj[k].constructor === Object && obj[k].hasOwnProperty(key)) {
             result[k] = obj[k][key];
+            delete obj[k][key];
         };
     });
     return result;
