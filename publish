@@ -73,3 +73,4 @@ git add --all
 git commit -m "Update package version to $TAG"
 git push origin master
 git push origin master --tags
+npm publish
