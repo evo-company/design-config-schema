@@ -1,24 +1,23 @@
-import { getKeyValues } from 'Schema/utils';
-import basic from 'Schema/basic';
-import promoPanel from 'Schema/components/promoPanel';
-import promoPanelBackgroundColor from 'Schema/components/promoPanel/properties/backgroundColor';
-import buyButton from 'Schema/components/buyButton';
-import buyButtonBackgroundColor from 'Schema/components/buyButton/properties/backgroundColor';
-import header from 'Schema/components/header';
-import headerBackgroundColor from 'Schema/components/header/properties/backgroundColor';
-import sidebar from 'Schema/components/sidebar';
-import sidebarBackgroundColor from 'Schema/components/sidebar/properties/backgroundColor';
-import horizontalMenu from 'Schema/components/horizontalMenu';
-import horizontalMenuBackgroundColor from 'Schema/components/horizontalMenu/properties/backgroundColor';
-import verticalMenu from 'Schema/components/verticalMenu';
-import verticalMenuBackgroundColor from 'Schema/components/verticalMenu/properties/backgroundColor';
-import catalogItem from 'Schema/components/catalogItem';
-import catalogItemBackgroundColor from 'Schema/components/catalogItem/properties/backgroundColor';
-import catalogItemStateAvailable from 'Schema/components/catalogItem/properties/stateAvailable';
-import catalogItemStateClarify from 'Schema/components/catalogItem/properties/stateClarify';
-import catalogItemStateOrder from 'Schema/components/catalogItem/properties/stateOrder';
-import footer from 'Schema/components/footer';
-import footerBackgroundColor from 'Schema/components/footer/properties/backgroundColor';
+import basic from './basic';
+import promoPanel from './components/promoPanel';
+import promoPanelBackgroundColor from './components/promoPanel/properties/backgroundColor';
+import buyButton from './components/buyButton';
+import buyButtonBackgroundColor from './components/buyButton/properties/backgroundColor';
+import header from './components/header';
+import headerBackgroundColor from './components/header/properties/backgroundColor';
+import sidebar from './components/sidebar';
+import sidebarBackgroundColor from './components/sidebar/properties/backgroundColor';
+import horizontalMenu from './components/horizontalMenu';
+import horizontalMenuBackgroundColor from './components/horizontalMenu/properties/backgroundColor';
+import verticalMenu from './components/verticalMenu';
+import verticalMenuBackgroundColor from './components/verticalMenu/properties/backgroundColor';
+import catalogItem from './components/catalogItem';
+import catalogItemBackgroundColor from './components/catalogItem/properties/backgroundColor';
+import catalogItemStateAvailable from './components/catalogItem/properties/stateAvailable';
+import catalogItemStateClarify from './components/catalogItem/properties/stateClarify';
+import catalogItemStateOrder from './components/catalogItem/properties/stateOrder';
+import footer from './components/footer';
+import footerBackgroundColor from './components/footer/properties/backgroundColor';
 
 
 function init(component, properties) {
@@ -61,7 +60,6 @@ const properties = Object.assign(
     initFooter,
 );
 const required = Object.keys(properties);
-const ui = getKeyValues('ui', properties);
 
 
 export default {
@@ -70,5 +68,4 @@ export default {
     additionalProperties: false,
     required,
     properties,
-    ui,
 };

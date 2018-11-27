@@ -5,11 +5,13 @@ import title from './components/title';
 import buyButton from './components/buyButton';
 import header from './components/header';
 import slider from './components/slider';
+import categories from './components/categories';
 import sidebar from './components/sidebar';
 import horizontalMenu from './components/horizontalMenu';
 import verticalMenu from './components/verticalMenu';
 import hamburgerMenu from './components/hamburgerMenu';
 import groupItem from './components/groupItem';
+import catalogView from './components/catalogView';
 import catalogItem from './components/catalogItem';
 import portfolioItem from './components/portfolioItem';
 import userContent from './components/userContent';
@@ -26,11 +28,13 @@ const properties = Object.assign(
     buyButton,
     header,
     slider,
+    categories,
     sidebar,
     horizontalMenu,
     verticalMenu,
     hamburgerMenu,
     groupItem,
+    catalogView,
     catalogItem,
     portfolioItem,
     userContent,

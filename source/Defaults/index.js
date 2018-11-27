@@ -14,6 +14,8 @@ import { generateGroupItemData } from './components/groupItem';
 import { generatePortfolioItemData } from './components/portfolioItem';
 import { generateUserContentData } from './components/userContent';
 import { generateSocialNetworkData } from './components/socialNetwork';
+import { generateCatalogViewData } from './components/catalogView';
+import { generateCategoriesData } from './components/categories';
 
 
 export default function(initFormData) {
@@ -37,9 +39,11 @@ export default function(initFormData) {
         horizontalMenu: generateHorizontalMenuData(initFormData),
         verticalMenu: generateVerticalMenuData(initFormData),
         hamburgerMenu: generateHamburgerMenuData(initFormData),
+        catalogView: generateCatalogViewData(initFormData),
         catalogItem: generateCatalogItemData(initFormData),
         footer: generateFooterData(initFormData),
         slider: generateSliderData(initFormData),
+        categories: generateCategoriesData(initFormData),
         navigationLink: generateNavigationLinkData(initFormData),
         groupItem: generateGroupItemData(initFormData),
         portfolioItem: generatePortfolioItemData(initFormData),

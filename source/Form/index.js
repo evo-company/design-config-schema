@@ -23,7 +23,7 @@ class SchemaForm extends React.Component {
         super(props);
         this.state = {
             formSchema: initSchema,
-            formData: {},
+            formData: initFormData,
             isFormBlank: true,
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -60,7 +60,7 @@ class SchemaForm extends React.Component {
         if (isConfirmed()) {
             this.setState({
                 formSchema: initSchema,
-                formData: {},
+                formData: initFormData,
                 isFormBlank: true,
             });
         }
@@ -71,7 +71,7 @@ class SchemaForm extends React.Component {
         return (
             <Form
                 schema={formSchema}
-                uiSchema={formSchema.ui}
+                uiSchema={schema.ui}
                 FieldTemplate={FieldTemplate}
                 ObjectFieldTemplate={ObjectFieldTemplate}
                 ErrorList={ErrorListTemplate}
