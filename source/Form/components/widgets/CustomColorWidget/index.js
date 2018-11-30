@@ -14,7 +14,7 @@ function getColorData(color) {
     const tColor = color.rgb ? tc(color.rgb) : tc(color);
     return {
         backgroudColor: tColor.toText(),
-        textColor: tColor.toHsl().l < 0.7 ? COLOR_WHITE : null,
+        textColor: tColor.toHsl().l >= 0.7 || tColor.getAlpha() <= 0.3 ? null : COLOR_WHITE,
     };
 };
 
@@ -52,17 +52,20 @@ class CustomColorWidget extends React.Component {
 
     componentWillUnmount() {
         document.body.style.overflow = null;
+        document.body.style.width = null;
         document.removeEventListener('keydown', this.handleKeyDown, false);
     }
 
     handleClick() {
         const { displayColorPicker } = this.state;
+        document.body.style.width = !displayColorPicker ? `${document.body.clientWidth}px` : null;
         document.body.style.overflow = !displayColorPicker ? 'hidden' : null;
         this.setState({ displayColorPicker: !displayColorPicker });
     }
 
     handleClose() {
         document.body.style.overflow = null;
+        document.body.style.width = null;
         this.setState({ displayColorPicker: false });
     }
 
@@ -81,31 +84,31 @@ class CustomColorWidget extends React.Component {
     render() {
         const colorData = getColorData(this.props.value);
         const inputBackgroundColor = colorData.backgroudColor;
-        const inputTextColor = colorData.textColor;
-        return [
-            <input
-                id={this.props.id}
-                key={this.props.id}
-                type='text'
-                className={`form-control ${css['form-control']}`}
-                value={inputBackgroundColor || ''}
-                required={this.props.required}
-                readOnly={this.props.readonly}
-                onClick={this.handleClick}
-                style={{
-                    backgroundColor: inputBackgroundColor,
-                    color: inputTextColor,
-                }}
-                autoComplete='off'
-            />,
-            <ColorPicker
-                enable={this.state.displayColorPicker}
-                color={inputBackgroundColor || COLOR_WHITE}
-                onChange={this.handleChange}
-                onClose={this.handleClose}
-                key={`color-picker-overlay-${this.props.id}`}
-            />
-        ];
+        const inputTextColor = inputBackgroundColor === 'transparent' ? null : colorData.textColor;
+        return (
+            <div className={`form-control ${css['form-control-wrapper']}`}>
+                <input
+                    id={this.props.id}
+                    type='text'
+                    className={`form-control ${css['form-control']}`}
+                    value={inputBackgroundColor || ''}
+                    required={this.props.required}
+                    readOnly={this.props.readonly}
+                    onClick={this.handleClick}
+                    style={{
+                        backgroundColor: inputBackgroundColor,
+                        color: inputTextColor,
+                    }}
+                    autoComplete='off'
+                />
+                <ColorPicker
+                    enable={this.state.displayColorPicker}
+                    color={inputBackgroundColor || COLOR_WHITE}
+                    onChange={this.handleChange}
+                    onClose={this.handleClose}
+                />
+            </div>
+        );
     };
 };
 

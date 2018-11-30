@@ -59,7 +59,9 @@ tinycolor.prototype.invert = function() {
 
 
 tinycolor.prototype.toText = function() {
-    return this.getAlpha() < 1 ? this.toRgbString() : this.toHexString();
+    const alpha = this.getAlpha();
+    if (alpha === 0) return 'transparent';
+    return alpha < 1 ? this.toRgbString() : this.toHexString();
 };
 
 
