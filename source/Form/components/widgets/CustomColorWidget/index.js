@@ -38,6 +38,7 @@ class CustomColorWidget extends React.Component {
     constructor(props) {
         super(props);
         this.state = { displayColorPicker: false, inputValue: '' };
+        this.input = null;
         this.handleColorPreviewClick = this.handleColorPreviewClick.bind(this);
         this.handleColorPickerClose = this.handleColorPickerClose.bind(this);
         this.handleColorPickerChange = this.handleColorPickerChange.bind(this);
@@ -79,8 +80,10 @@ class CustomColorWidget extends React.Component {
 
     handleColorPickerChange(color) {
         const pickedColor = getColor(color) || '';
-        this.setState({ inputValue: pickedColor });
-        this.props.onChange(pickedColor);
+        this.props.formContext.handleColorChange({
+            [this.props.label]: pickedColor,
+        });
+        this.setState({ inputValue: '' });
     }
 
     handleInputChange(event) {
@@ -94,8 +97,10 @@ class CustomColorWidget extends React.Component {
     handleInputKeyDown(event) {
         if (event.type === 'blur' || event.keyCode === ENTER_KEY_CODE) {
             const color = getColor(this.state.inputValue, this.props.value) || '';
+            this.props.formContext.handleColorChange({
+                [this.props.label]: color,
+            });
             this.setState({ inputValue: '' });
-            this.props.onChange(color);
         }
     }
 

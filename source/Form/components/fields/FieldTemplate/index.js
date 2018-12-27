@@ -45,13 +45,14 @@ const ErrorList = ({ errors }) => {
 
 
 const FieldTemplate = (props) => {
-    const { classNames, rawHelp, children, rawErrors } = props;
+    const { classNames, rawHelp, children, rawErrors, formContext } = props;
+    const errors = formContext.showErrors ? rawErrors : null;
     return (
         <div className={classNames}>
             <Description {...props}/>
             {children}
             <div className={`${css['help-block']} text-muted`}>{rawHelp}</div>
-            <ErrorList errors={rawErrors}/>
+            <ErrorList errors={errors}/>
         </div>
     );
 };

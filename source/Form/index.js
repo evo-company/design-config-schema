@@ -22,15 +22,19 @@ class SchemaForm extends React.Component {
         this.state = {
             formSchema: schema,
             formData: {},
+            showErrors: true
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleFormError = this.handleFormError.bind(this);
         this.handleCreateConfigClick = this.handleCreateConfigClick.bind(this);
         this.handleConfigLoad = this.handleConfigLoad.bind(this);
         this.handleIconSetLoad = this.handleIconSetLoad.bind(this);
+        this.handleColorChange = this.handleColorChange.bind(this);
     }
 
     handleConfigLoad(rawJSON) {
         this.setState({
+            showErrors: false,
             formSchema: schema,
             formData: JSON.parse(rawJSON),
         });
@@ -45,9 +49,14 @@ class SchemaForm extends React.Component {
         saveAs(blob, 'design-settings.json');
     }
 
+    handleFormError() {
+        this.setState({ showErrors: true });
+    }
+
     handleCreateConfigClick() {
         if (isConfirmed()) {
             this.setState({
+                showErrors: false,
                 formSchema: schema,
                 formData: {},
             });
@@ -60,6 +69,16 @@ class SchemaForm extends React.Component {
             Object.assign(formData.icons, icons)
         } else {
             formData.icons = icons;
+        }
+        this.setState({ formData });
+    }
+
+    handleColorChange(color) {
+        const { formData } = this.state;
+        if (formData.colors) {
+            Object.assign(formData.colors, color)
+        } else {
+            formData.colors = color;
         }
         this.setState({ formData });
     }
@@ -79,9 +98,11 @@ class SchemaForm extends React.Component {
                 onError={this.handleFormError}
                 noHtml5Validate={true}
                 formData={formData}
-                liveValidate={true}
-                formContext={{ handleIconSetLoad: this.handleIconSetLoad }}
-                onError={() => alert('Can\'t save design settings until correct data will be entered!')}
+                formContext={{
+                    handleIconSetLoad: this.handleIconSetLoad,
+                    handleColorChange: this.handleColorChange,
+                    showErrors,
+                }}
             >
                 <div className='fixed-top pt-2 pb-2 bg-white shadow-sm'>
                     <div className='container'>

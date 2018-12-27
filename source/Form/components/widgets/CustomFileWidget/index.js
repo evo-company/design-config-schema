@@ -52,19 +52,24 @@ class CustomFileWidget extends React.Component {
     }
 
     handleChange(event) {
-        const { onChange, multiple } = this.props;
+        const { label, multiple, formContext } = this.props;
         processFiles(event.target.files).then(filesContent => {
             const values = filesContent.reduce((list, item) => {
                 if (Boolean(item.svg)) list.push(item.svg);
                 return list;
             }, []);
-            if (values.length > 0) onChange(multiple ? values : values[0]);
+            if (values.length > 0) formContext.handleIconSetLoad({
+                [label]: multiple ? values : values[0]
+            });
         });
         event.target.value = '';
     }
 
     handleReset() {
-        this.props.onChange('');
+        const { label, formContext } = this.props;
+        formContext.handleIconSetLoad({
+            [label]: ''
+        });
     }
 
     handleClick() {
