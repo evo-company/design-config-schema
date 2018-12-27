@@ -4,18 +4,16 @@ import tc from 'tinycolor';
 import css from './styles.sss';
 
 
+const ENTER_KEY_CODE = 13;
 const ESC_KEY_CODE = 27;
-const COLOR_WHITE = '#fff';
 const COLOR_PICKER_WIDTH = 400;
 
 
-function getColorData(color) {
-    if (!color) return { backgroudColor: null, textColor: null };
+function getColor(color, defaultColor = null) {
+    if (!color) return null;
     const tColor = color.rgb ? tc(color.rgb) : tc(color);
-    return {
-        backgroudColor: tColor.toText(),
-        textColor: tColor.toHsl().l >= 0.7 || tColor.getAlpha() <= 0.3 ? null : COLOR_WHITE,
-    };
+    if (!tColor.isValid()) return defaultColor;
+    return tColor.toText();
 };
 
 
@@ -39,14 +37,17 @@ const ColorPicker = ({ enable, color, onChange, onClose }) => {
 class CustomColorWidget extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { displayColorPicker: false };
-        this.handleClick = this.handleClick.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.state = { displayColorPicker: false, inputValue: '' };
+        this.handleColorPreviewClick = this.handleColorPreviewClick.bind(this);
+        this.handleColorPickerClose = this.handleColorPickerClose.bind(this);
+        this.handleColorPickerChange = this.handleColorPickerChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleInputFocus = this.handleInputFocus.bind(this);
+        this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         document.addEventListener('keydown', this.handleKeyDown, false);
     }
 
@@ -56,14 +57,13 @@ class CustomColorWidget extends React.Component {
         document.removeEventListener('keydown', this.handleKeyDown, false);
     }
 
-    handleClick() {
-        const { displayColorPicker } = this.state;
-        document.body.style.width = !displayColorPicker ? `${document.body.clientWidth}px` : null;
-        document.body.style.overflow = !displayColorPicker ? 'hidden' : null;
-        this.setState({ displayColorPicker: !displayColorPicker });
+    handleColorPreviewClick() {
+        document.body.style.width = `${document.body.clientWidth}px`;
+        document.body.style.overflow = 'hidden';
+        this.setState({ displayColorPicker: true });
     }
 
-    handleClose() {
+    handleColorPickerClose() {
         document.body.style.overflow = null;
         document.body.style.width = null;
         this.setState({ displayColorPicker: false });
@@ -74,40 +74,67 @@ class CustomColorWidget extends React.Component {
             this.state.displayColorPicker &&
             event.keyCode === ESC_KEY_CODE
         );
-        if (shouldCloseColorPicker) this.handleClose();
+        if (shouldCloseColorPicker) this.handleColorPickerClose();
     }
 
-    handleChange(color) {
-        this.props.onChange(getColorData(color).backgroudColor || '');
+    handleColorPickerChange(color) {
+        const pickedColor = getColor(color) || '';
+        this.setState({ inputValue: pickedColor });
+        this.props.onChange(pickedColor);
+    }
+
+    handleInputChange(event) {
+        this.setState({ inputValue: event.target.value })
+    }
+
+    handleInputFocus() {
+        this.setState({ inputValue: this.props.value });
+    }
+
+    handleInputKeyDown(event) {
+        if (event.type === 'blur' || event.keyCode === ENTER_KEY_CODE) {
+            const color = getColor(this.state.inputValue, this.props.value) || '';
+            this.setState({ inputValue: '' });
+            this.props.onChange(color);
+        }
     }
 
     render() {
-        const colorData = getColorData(this.props.value);
-        const inputBackgroundColor = colorData.backgroudColor;
-        const inputTextColor = inputBackgroundColor === 'transparent' ? null : colorData.textColor;
+        const color = this.props.value;
+        const inputValue =  this.state.inputValue || color;
+        const previewClassName = [
+            'd-inline-block', 'align-middle', 'border', 'border-secondary',
+            'rounded', 'mr-2', css['color-preview']
+        ].join(' ');
         return (
-            <div className={`form-control ${css['form-control-wrapper']}`}>
-                <input
-                    id={this.props.id}
-                    type='text'
-                    className={`form-control ${css['form-control']}`}
-                    value={inputBackgroundColor || ''}
-                    required={this.props.required}
-                    readOnly={this.props.readonly}
-                    onClick={this.handleClick}
-                    style={{
-                        backgroundColor: inputBackgroundColor,
-                        color: inputTextColor,
-                    }}
-                    autoComplete='off'
-                />
+            <React.Fragment>
                 <ColorPicker
                     enable={this.state.displayColorPicker}
-                    color={inputBackgroundColor || COLOR_WHITE}
-                    onChange={this.handleChange}
-                    onClose={this.handleClose}
+                    color={color}
+                    onChange={this.handleColorPickerChange}
+                    onClose={this.handleColorPickerClose}
                 />
-            </div>
+                <div className={previewClassName}>
+                    <span
+                        className={css['color-preview-value']}
+                        style={{ backgroundColor: color }}
+                        onClick={this.handleColorPreviewClick}
+                    />
+                </div>
+                <input
+                    id={this.props.id}
+                    className='form-control d-inline-block w-auto align-middle'
+                    type="text"
+                    value={inputValue || ''}
+                    required={this.props.required}
+                    readOnly={this.props.readonly}
+                    autoComplete='off'
+                    onFocus={this.handleInputFocus}
+                    onChange={this.handleInputChange}
+                    onBlur={this.handleInputKeyDown}
+                    onKeyDown={this.handleInputKeyDown}
+                />
+            </React.Fragment>
         );
     };
 };

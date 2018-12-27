@@ -11,7 +11,7 @@ function processFile(file) {
 };
 
 
-class LoadButton extends React.Component {
+class LoadConfigButton extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
@@ -34,24 +34,24 @@ class LoadButton extends React.Component {
 
     render() {
         const { children, className } = this.props;
-        return [
-            <button
-                key='load-config-button'
-                type='button'
-                className={className}
-                onClick={this.handleClick}
-            >{children}</button>,
-            <input
-                key='load-config-input'
-                type='file'
-                accept='.json'
-                style={{ display: 'none' }}
-                onChange={this.handleChange}
-                ref={input => this.inputElement = input}
-            />
-        ]
+        return (
+            <React.Fragment>
+                <button
+                    type='button'
+                    className={className}
+                    onClick={this.handleClick}
+                >{children}</button>
+                <input
+                    type='file'
+                    accept='application/json'
+                    style={{ display: 'none' }}
+                    onChange={this.handleChange}
+                    ref={input => this.inputElement = input}
+                />
+            </React.Fragment>
+        )
     }
 };
 
 
-export { LoadButton };
+export { LoadConfigButton };

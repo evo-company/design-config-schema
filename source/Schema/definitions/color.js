@@ -4,6 +4,5 @@ export default {
     ui: {
         'ui:widget': 'CustomColorWidget',
         'ui:help': 'Supported formats: hex, rgb, rgba',
-        'ui:readonly': true,
     }
 };

@@ -1,9 +1,15 @@
 import React from 'react';
 import css from './styles.sss';
+import { LoadIconSetButton } from '../../LoadIconSetButton';
 
 
-const Description = ({ id, label, description, required }) => {
+const ICONS_FIELD = 'root_icons';
+
+
+const Description = ({ id, label, description, required, formContext }) => {
     if (!label) return description;
+    const { description: descr, id: descrId } = description.props;
+    const { handleIconSetLoad } = formContext
     return (
         <div className='row'>
             <div className='col-md-auto'>
@@ -12,7 +18,17 @@ const Description = ({ id, label, description, required }) => {
                     {required ? <span className='required text-danger'>*</span> : null}
                 </label>
             </div>
-            <div className="col">{description}</div>
+            <div className="col">
+                <p id={descrId} className='field-description'>
+                    {descr}
+                    {id === ICONS_FIELD ? (
+                        <LoadIconSetButton
+                            className='btn btn-sm btn-outline-primary ml-2'
+                            onLoad={handleIconSetLoad}
+                        >Load a set of icons</LoadIconSetButton>
+                    ) : null}
+                </p>
+            </div>
         </div>
     );
 };

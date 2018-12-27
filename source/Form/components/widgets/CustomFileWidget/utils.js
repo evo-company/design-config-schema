@@ -1,3 +1,8 @@
+// const HTML_COMMENT_REGEX = /<!--[\s\S]*?(?:-->)?<!---+>?|<!(?![dD][oO][cC][tT][yY][pP][eE]|\[CDATA\[)[^>]*>?|<[?][^>]*>?/g;
+const HTML_COMMENT_REGEX = /<!--[\s\S]*?-->/g;
+const SVG_REGEX = /^\s*(?:<\?xml[^>]*>\s*)?(?:<!doctype svg[^>]*\s*(?:\[?(?:\s*<![^>]*>\s*)*\]?)*[^>]*>\s*)?<svg[^>]*>[^]*<\/svg>\s*$/i;
+
+
 function isArguments(object) {
   return Object.prototype.toString.call(object) === '[object Arguments]';
 };
@@ -64,10 +69,50 @@ function deepEquals(a, b, ca = [], cb = []) {
 };
 
 
-function shouldRender(comp, nextProps, nextState) {
+export function shouldRender(comp, nextProps, nextState) {
   const { props, state } = comp;
   return !deepEquals(props, nextProps) || !deepEquals(state, nextState);
 };
 
 
-export { shouldRender };
+function isBinary(buf) {
+    const isBuf = Buffer.isBuffer(buf);
+    for (let i = 0; i < 24; i++) {
+        const charCode = isBuf ? buf[i] : buf.charCodeAt(i);
+        if (charCode === 65533 || charCode <= 8) return true;
+    }
+    return false;
+};
+
+
+function isSVG(data) {
+    return (
+        Boolean(data) &&
+        !isBinary(data) &&
+        SVG_REGEX.test(data.toString().replace(HTML_COMMENT_REGEX, ''))
+    );
+};
+
+
+function processFile(file) {
+    const { name } = file;
+    return new Promise((resolve, reject) => {
+        const reader = new window.FileReader();
+        reader.onerror = reject;
+        reader.onload = (event) => {
+            const data = event.target.result;
+            if (isSVG(data)) return resolve({
+                name: name.replace(/(\.svg)$/i, ''),
+                svg: data,
+            });
+            alert('ERROR: Invalid file format!\nThere must be only an SVG file.')
+            return resolve(null);
+        };
+        reader.readAsText(file);
+    });
+};
+
+
+export function processFiles(files) {
+    return Promise.all([].map.call(files, processFile));
+};
