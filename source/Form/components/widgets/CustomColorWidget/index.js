@@ -35,13 +35,6 @@ const ColorPicker = ({ enable, color, onChange, onClose }) => {
 
 
 class CustomColorWidget extends React.Component {
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     const { value } = nextProps;
-    //     const { inputValue } = prevState;
-    //     if (value === inputValue) return null;
-    //     return { inputValue: value };
-    // }
-
     constructor(props) {
         super(props);
         this.state = { displayColorPicker: false };
@@ -50,7 +43,6 @@ class CustomColorWidget extends React.Component {
         this.handleColorPickerChange = this.handleColorPickerChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        // this.handleInputFocus = this.handleInputFocus.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     }
 
@@ -89,19 +81,13 @@ class CustomColorWidget extends React.Component {
         this.props.formContext.handleColorChange({
             [this.props.label]: pickedColor,
         });
-        // this.setState({ inputValue: '' });
     }
 
     handleInputChange(event) {
-        // this.setState({ inputValue: event.target.value })
         this.props.formContext.handleColorChange({
             [this.props.label]: event.target.value || undefined,
         });
     }
-
-    // handleInputFocus() {
-    //     this.setState({ inputValue: this.props.value });
-    // }
 
     handleInputKeyDown(event) {
         if (event.type === 'blur' || event.keyCode === ENTER_KEY_CODE) {
@@ -115,7 +101,6 @@ class CustomColorWidget extends React.Component {
     render() {
         const { id, value, required, readonly } = this.props;
         const color = getColor(value) || undefined;
-        // const inputValue =  this.state.inputValue || color;
         const previewClassName = [
             'd-inline-block', 'align-middle', 'border', 'border-secondary',
             'rounded', 'mr-2', css['color-preview']
@@ -143,7 +128,6 @@ class CustomColorWidget extends React.Component {
                     required={required}
                     readOnly={readonly}
                     autoComplete='off'
-                    // onFocus={this.handleInputFocus}
                     onChange={this.handleInputChange}
                     onBlur={this.handleInputKeyDown}
                     onKeyDown={this.handleInputKeyDown}
