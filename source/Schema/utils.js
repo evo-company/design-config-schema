@@ -9,3 +9,10 @@ export function getKeyValues(key, obj) {
     });
     return result;
 };
+
+
+export function getRequiredPropertyKeys(propertyKeys, excludedPropertyKeys) {
+    return propertyKeys.filter(
+        propertyKey => !excludedPropertyKeys.includes(propertyKey)
+    );
+};

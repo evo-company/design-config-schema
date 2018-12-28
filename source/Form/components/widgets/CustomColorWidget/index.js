@@ -9,10 +9,10 @@ const ESC_KEY_CODE = 27;
 const COLOR_PICKER_WIDTH = 400;
 
 
-function getColor(color, defaultColor = null) {
+function getColor(color) {
     if (!color) return null;
     const tColor = color.rgb ? tc(color.rgb) : tc(color);
-    if (!tColor.isValid()) return defaultColor;
+    if (!tColor.isValid()) return null;
     return tColor.toText();
 };
 
@@ -35,16 +35,22 @@ const ColorPicker = ({ enable, color, onChange, onClose }) => {
 
 
 class CustomColorWidget extends React.Component {
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //     const { value } = nextProps;
+    //     const { inputValue } = prevState;
+    //     if (value === inputValue) return null;
+    //     return { inputValue: value };
+    // }
+
     constructor(props) {
         super(props);
-        this.state = { displayColorPicker: false, inputValue: '' };
-        this.input = null;
+        this.state = { displayColorPicker: false };
         this.handleColorPreviewClick = this.handleColorPreviewClick.bind(this);
         this.handleColorPickerClose = this.handleColorPickerClose.bind(this);
         this.handleColorPickerChange = this.handleColorPickerChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleInputFocus = this.handleInputFocus.bind(this);
+        // this.handleInputFocus = this.handleInputFocus.bind(this);
         this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     }
 
@@ -79,34 +85,37 @@ class CustomColorWidget extends React.Component {
     }
 
     handleColorPickerChange(color) {
-        const pickedColor = getColor(color) || '';
+        const pickedColor = getColor(color);
         this.props.formContext.handleColorChange({
             [this.props.label]: pickedColor,
         });
-        this.setState({ inputValue: '' });
+        // this.setState({ inputValue: '' });
     }
 
     handleInputChange(event) {
-        this.setState({ inputValue: event.target.value })
+        // this.setState({ inputValue: event.target.value })
+        this.props.formContext.handleColorChange({
+            [this.props.label]: event.target.value || undefined,
+        });
     }
 
-    handleInputFocus() {
-        this.setState({ inputValue: this.props.value });
-    }
+    // handleInputFocus() {
+    //     this.setState({ inputValue: this.props.value });
+    // }
 
     handleInputKeyDown(event) {
         if (event.type === 'blur' || event.keyCode === ENTER_KEY_CODE) {
-            const color = getColor(this.state.inputValue, this.props.value) || '';
+            const color = getColor(this.props.value) || undefined;
             this.props.formContext.handleColorChange({
                 [this.props.label]: color,
             });
-            this.setState({ inputValue: '' });
         }
     }
 
     render() {
-        const color = this.props.value;
-        const inputValue =  this.state.inputValue || color;
+        const { id, value, required, readonly } = this.props;
+        const color = getColor(value) || undefined;
+        // const inputValue =  this.state.inputValue || color;
         const previewClassName = [
             'd-inline-block', 'align-middle', 'border', 'border-secondary',
             'rounded', 'mr-2', css['color-preview']
@@ -127,14 +136,14 @@ class CustomColorWidget extends React.Component {
                     />
                 </div>
                 <input
-                    id={this.props.id}
+                    id={id}
                     className='form-control d-inline-block w-auto align-middle'
                     type="text"
-                    value={inputValue || ''}
-                    required={this.props.required}
-                    readOnly={this.props.readonly}
+                    value={value || ''}
+                    required={required}
+                    readOnly={readonly}
                     autoComplete='off'
-                    onFocus={this.handleInputFocus}
+                    // onFocus={this.handleInputFocus}
                     onChange={this.handleInputChange}
                     onBlur={this.handleInputKeyDown}
                     onKeyDown={this.handleInputKeyDown}
